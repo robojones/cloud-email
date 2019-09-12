@@ -1,0 +1,8 @@
+# IntelliJ project index
+.idea/
+
+# Generated files like wire_gen.go
+*_gen.go
+
+# Protobuf intermediate output
+gen/

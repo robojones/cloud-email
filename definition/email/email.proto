@@ -1,0 +1,146 @@
+syntax = "proto3";
+package email;
+
+option go_package = "github.com/robojones/cloud-email/definition/email";
+
+// EmailInfo provides the most important information about an email address.
+message EmailInfo {
+    // EmailId is the internal ID of the email address.
+    uint64 email_id = 1;
+    // Email is the full email address.
+    string email = 2;
+    // IsValidated is true if ValidateEmail was called for this email address.
+    bool is_validated = 3;
+    // IsPrimary is true if SetPrimaryEmail was called for this address.
+    bool is_primary = 4;
+}
+
+message AddEmailRequest {
+    // User that owns the email address.
+    uint64 user = 1;
+    // Email is the complete email address that will be added to the user.
+    string email = 2;
+}
+
+message AddEmailResponse {
+    enum Status {
+        FAILURE = 0;
+        SUCCESS = 1;
+        DUPLICATE_EMAIL = 2;
+    }
+    // Status of the request.
+    Status status = 1;
+    // EmailId of the newly added email address.
+    uint64 email_id = 2;
+}
+
+message RemoveEmailRequest {
+    // User that owns the email address.
+    uint64 user = 1;
+    // EmailId of the email address.
+    uint64 email_id = 2;
+}
+
+message RemoveEmailResponse {}
+
+message GetEmailsRequest {
+    // User that requests his emails.
+    uint64 user = 1;
+}
+
+message GetEmailsResponse {
+    enum Status {
+        FAILURE = 0;
+        SUCCESS = 1;
+        NOT_FOUND = 2;
+    }
+    // Status of the request.
+    Status status = 1;
+    // Emails of the user.
+    repeated EmailInfo emails = 2;
+}
+
+message ValidateEmailRequest {
+    // User that wants to validate his email address.
+    uint64 user = 1;
+    // EmailId of the email address that should be validated.
+    // The VALIDATED tag will be attached to this email address.
+    uint64 email_id = 2;
+}
+
+message ValidateEmailResponse {
+    enum Status {
+        FAILURE = 0;
+        SUCCESS = 1;
+        NOT_FOUND = 2;
+    }
+    // Status of the request.
+    Status status = 1;
+}
+
+message SetPrimaryEmailRequest {
+    // User that sent the request.
+    uint64 user = 1;
+    // EmailId of the email address to set as primary email.
+    // Attaches the PRIMARY tag to the email and removes it from the old primary email.
+    uint64 email_id = 2;
+}
+
+message SetPrimaryEmailResponse {
+    enum Status {
+        FAILURE = 0;
+        SUCCESS = 1;
+        NOT_FOUND = 2;
+    }
+    // Status of the request.
+    Status status = 1;
+}
+
+message GetUserRequest {
+    // User that sent the request.
+    uint64 user = 1;
+    // Email to find the owner.
+    string email = 2;
+}
+
+message GetUserResponse {
+    enum Status {
+        FAILURE = 0;
+        SUCCESS = 1;
+        NOT_FOUND = 2;
+    }
+    // Status of the request.
+    Status status = 1;
+    // User that owns the requested email address.
+    uint64 user = 2;
+}
+
+service Email {
+    // AddEmail adds a new email with some initial tags to a user.
+    rpc AddEmail (AddEmailRequest)
+    returns (AddEmailResponse);
+
+    // RemoveEmail deletes an email with all its tags.
+    // The email with the PRIMARY tag cannot be removed.
+    rpc RemoveEmail (RemoveEmailRequest)
+    returns (RemoveEmailResponse);
+
+    // GetEmails returns a list of all emails linked to the user.
+    rpc GetEmails (GetEmailsRequest)
+    returns (GetEmailsResponse);
+
+    // ValidateEmail adds the VALIDATED tag to the email.
+    rpc ValidateEmail (ValidateEmailRequest)
+    returns (ValidateEmailResponse);
+
+    // SetPrimaryEmail sets an existing email as primary email for a user.
+    // Moves the PRIMARY tag of the user account to the provided email.
+    // The primary email is used as default email for all purposes.
+    rpc SetPrimaryEmail (SetPrimaryEmailRequest)
+    returns (SetPrimaryEmailResponse);
+
+    // GetUser returns the owner of an email address.
+    // E.g. for contact requests.
+    rpc GetUser (GetUserRequest)
+    returns (GetUserResponse);
+}
