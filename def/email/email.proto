@@ -1,7 +1,7 @@
 syntax = "proto3";
 package email;
 
-option go_package = "github.com/robojones/cloud-email/definition/email";
+option go_package = "github.com/robojones/cloud-email/def/email";
 
 // EmailInfo provides the most important information about an email address.
 message EmailInfo {
