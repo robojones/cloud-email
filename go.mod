@@ -6,6 +6,5 @@ require (
 	github.com/google/wire v0.3.0
 	github.com/lib/pq v1.2.0
 	github.com/pkg/errors v0.8.1
-	github.com/robojones/cloud-lib-go v0.0.3
 	google.golang.org/grpc v1.23.1
 )

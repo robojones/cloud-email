@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker run -v `pwd`:/defs namely/protoc-all -d definition/email -l go -o lib/email --go-source-relative
+docker run -v `pwd`:/defs namely/protoc-all -d def/email -l go -o lib/email --go-source-relative
