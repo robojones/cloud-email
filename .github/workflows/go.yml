@@ -20,7 +20,7 @@ jobs:
       run: go mod download
 
     - name: Download build tools
-      run: go get wire
+      run: go get github.com/google/wire/cmd/wire
 
     - name: Generate code
       run: go generate
