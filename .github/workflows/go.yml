@@ -18,6 +18,9 @@ jobs:
     - name: Get dependencies
       run: go mod download
 
+    - name: Generate code
+      run: go generate
+
     - name: Test
       run: go test -v ./...
 
