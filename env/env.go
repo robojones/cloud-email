@@ -14,13 +14,10 @@ func NewEnv() *Env {
 }
 
 type Env struct {
-	// CockroachURL is the connection string used to connect to the CockroachDB cluster.
-	// Example value: "postgresql://email_test@localhost:26257/email_test"
-	CockroachURL string `env:"COCKROACH_URL,required"`
+	// CockroachConnection is the connection string used to connect to the CockroachDB cluster.
+	// Example value: "host=localhost port=26257 user=email_test dbname=email_test sslmode=disable"
+	CockroachConnection string `env:"COCKROACH_CONNECTION,required"`
 
 	// Port that the gRPC server listens to.
 	Port int `env:"PORT,required"`
-
-	// Client side hashing salt seed.
-	SaltSeed string `env:"SALT_SEED,required"`
 }
