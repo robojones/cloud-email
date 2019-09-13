@@ -18,6 +18,12 @@ jobs:
 
     - name: Get dependencies
       run: go mod download
+     
+     - name: Download build tools
+       run: go get wire
+      
+    - name: Generate code
+      run: go generate
 
     - name: Build
       run: go build -v .
