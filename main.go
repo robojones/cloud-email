@@ -1,4 +1,3 @@
-//go:generate bash build.sh
 //go:generate wire
 
 package main
