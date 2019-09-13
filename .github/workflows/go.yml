@@ -23,7 +23,7 @@ jobs:
       run: go get github.com/google/wire/cmd/wire
 
     - name: Generate code
-      run: go generate
+      run: PATH="$PATH:$GOPATH/bin" go generate
 
     - name: Build
       run: go build -v .
