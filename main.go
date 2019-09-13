@@ -1,5 +1,4 @@
-//go:generate bash build.sh
-//go:generate wire
+//go:generate go run github.com/google/wire/cmd/wire
 
 package main
 
