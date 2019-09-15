@@ -37,7 +37,30 @@ func TestService_AddEmail(t *testing.T) {
 	assert.Equal(t, email.AddEmailResponse_SUCCESS, res.Status)
 }
 
-func TestService_AddEmail_ConnectionError(t *testing.T) {
+func TestService_AddEmail_Error (t *testing.T) {
+	const (
+		testEmail        = "test@email.com"
+		userId    uint64 = 2342342
+	)
+
+	mockDB, mock, _ := sqlmock.New();
+
+	s := NewService(mockDB)
+
+	var ConnectionError = &pq.Error{
+		Code: "08006",
+	}
+
+	mock.ExpectExec(`INSERT INTO emails .*`).WillReturnError(ConnectionError)
+
+	_, err := s.AddEmail(context.Background(), &email.AddEmailRequest{
+		Email: testEmail,
+		User:  userId,
+	})
+	assert.Equal(t, ConnectionError, err)
+}
+
+func TestService_AddEmail_UniqueViolationError(t *testing.T) {
 	const (
 		testEmail        = "test@email.com"
 		userId    uint64 = 2342342
