@@ -1,6 +1,22 @@
 name: Go
 on: [push]
 jobs:
+  library:
+    name: Generated library up to date
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+
+      - name: Copy
+        run: cp lib/*/*.pb.go lib/current.go
+
+      - name: Generate
+        run: bash ./build.sh
+
+      - name: Compare
+        run: cmp --silent lib/*/*.pb.go lib/current.go || exit 1
   test:
     name: Test
     runs-on: ubuntu-latest
