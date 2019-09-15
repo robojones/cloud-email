@@ -22,7 +22,10 @@ jobs:
       run: go generate
 
     - name: Test
-      run: go test -v ./...
+      run: go test -v -short ./...
+      env:
+        COCKROACH_CONNECTION: host=localhost port=26257 user=email_test dbname=email_test sslmode=disable
+        PORT: 8080
 
   build:
     name: Build

@@ -2,17 +2,18 @@ package service
 
 import (
 	"context"
+	"github.com/robojones/cloud-email/db"
 	"github.com/robojones/cloud-email/lib/email"
 )
 
-func NewService() *Service {
-	return &Service{}
+func NewService(db db.CockroachDB) *Service {
+	return &Service{
+		db: db,
+	}
 }
 
-type Service struct {}
-
-func (s Service) AddEmail(context.Context, *email.AddEmailRequest) (*email.AddEmailResponse, error) {
-	panic("implement me")
+type Service struct {
+	db db.CockroachDB
 }
 
 func (s Service) RemoveEmail(context.Context, *email.RemoveEmailRequest) (*email.RemoveEmailResponse, error) {
