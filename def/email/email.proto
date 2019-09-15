@@ -41,7 +41,14 @@ message RemoveEmailRequest {
     uint64 email_id = 2;
 }
 
-message RemoveEmailResponse {}
+message RemoveEmailResponse {
+    enum Status {
+        FAILURE = 0;
+        SUCCESS = 1;
+        NOT_FOUND = 2;
+    }
+    Status status = 1;
+}
 
 message GetEmailsRequest {
     // User that requests his emails.
