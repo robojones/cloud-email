@@ -36,6 +36,5 @@ func TestService_RemoveEmail(t *testing.T) {
 
 	assert.NilError(t, err)
 	assert.NilError(t, mock.ExpectationsWereMet())
-	assert.Assert(t, 0 != res.EmailId)
 	assert.Equal(t, email.AddEmailResponse_SUCCESS, res.Status)
 }
