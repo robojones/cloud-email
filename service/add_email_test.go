@@ -13,29 +13,6 @@ import (
 	"testing"
 )
 
-func TestService_GetEmail_Error(t *testing.T) {
-	const (
-		testEmail        = "test@email.com"
-		userId    uint64 = 2342342
-	)
-
-	mockDB, mock, _ := sqlmock.New()
-	mock.ExpectExec(`SELECT FROM emails*`).WithArgs(sqlmock.AnyArg(), testEmail, userId).
-		WillReturnResult(driver.ResultNoRows)
-
-	s := NewService(mockDB)
-
-	res, err := s.AddEmail(context.Background(), &email.AddEmailRequest{
-		Email: testEmail,
-		User:  userId,
-	})
-
-	assert.NilError(t, err)
-	assert.NilError(t, mock.ExpectationsWereMet())
-	assert.Assert(t, 0 != res.EmailId)
-	assert.Equal(t, email.AddEmailResponse_SUCCESS, res.Status)
-}
-
 func TestService_AddEmail(t *testing.T) {
 	const (
 		testEmail        = "test@email.com"
