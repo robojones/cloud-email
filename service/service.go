@@ -16,10 +16,6 @@ type Service struct {
 	db db.CockroachDB
 }
 
-func (s Service) RemoveEmail(context.Context, *email.RemoveEmailRequest) (*email.RemoveEmailResponse, error) {
-	panic("implement me")
-}
-
 func (s Service) GetEmails(context.Context, *email.GetEmailsRequest) (*email.GetEmailsResponse, error) {
 	panic("implement me")
 }
