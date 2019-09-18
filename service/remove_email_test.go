@@ -13,21 +13,16 @@ import (
 	"testing"
 )
 
-
 func TestService_RemoveEmail(t *testing.T) {
-	const (
-		testEmail        = "test@email.com"
-		userId    uint64 = 2342342
-	)
 
 	mockDB, mock, _ := sqlmock.New()
-	mock.ExpectExec(`SELECT FROM emails WHERE id="2342342" `).WithArgs(sqlmock.AnyArg(), testEmail, userId).
+	mock.ExpectExec(`DELETE FROM emails WHERE id="2342342" `).WithArgs(sqlmock.AnyArg(), testEmail, userId).
 		WillReturnResult(driver.ResultNoRows)
 
 	s := NewService(mockDB)
 
 	res, err := s.RemoveEmail(context.Background(), &email.RemoveEmailRequest{
-		User:                 userId,
+		User:                 0,
 		EmailId:              0,
 		XXX_NoUnkeyedLiteral: struct{}{},
 		XXX_unrecognized:     nil,
